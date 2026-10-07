@@ -1,0 +1,48 @@
+scopes:
+  source:
+    files:
+      alpha:
+        include:
+          - shared/**/*
+      beta:
+        include:
+          - victim/**/*
+      config:
+        include:
+          - .mergify.yml
+
+queue_rules:
+  - name: vm3-directmerge-scopegen-261007
+    queue_conditions: []
+    merge_conditions:
+      - check-success = vm3-dm-gen-ci
+    batch_size: 1
+    batch_max_wait_time: 10 seconds
+    merge_method: squash
+
+merge_queue:
+  mode: serial
+  max_parallel_checks: 1
+
+pull_request_rules:
+  - name: queue direct-merge A
+    conditions:
+      - title = VM3 DM GEN A 261007
+      - check-success = vm3-dm-gen-ci
+    actions:
+      queue:
+        name: vm3-directmerge-scopegen-261007
+  - name: queue direct-merge config generation C
+    conditions:
+      - title = VM3 DM GEN C 261007
+      - check-success = vm3-dm-gen-ci
+    actions:
+      queue:
+        name: vm3-directmerge-scopegen-261007
+  - name: queue direct-merge victim B
+    conditions:
+      - title = VM3 DM GEN B GO 261007
+      - check-success = vm3-dm-gen-ci
+    actions:
+      queue:
+        name: vm3-directmerge-scopegen-261007
