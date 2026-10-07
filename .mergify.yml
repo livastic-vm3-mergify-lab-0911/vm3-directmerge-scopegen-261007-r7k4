@@ -1,11 +1,9 @@
 scopes:
   source:
     files:
-      alpha:
-        include:
-          - shared/**/*
       beta:
         include:
+          - shared/**/*
           - victim/**/*
       config:
         include:
